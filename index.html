@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Frações Área Verde</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 600px;
+    }
+    h1 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+    .retangulo {
+      display: flex;
+      border: 2px solid #0077b6;
+      margin: 10px auto;
+      width: 500px;
+      height: 75px;
+    }
+    .parte {
+      flex: 1;
+      border-right: 1px solid #90e0ef;
+    }
+    .pintado {
+      background: #00b4d8;
+    }
+    input {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1em;
+      border: 2px solid #90e0ef;
+      border-radius: 8px;
+      width: 150px;
+      text-align: center;
+    }
+    button {
+      margin-top: 10px;
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    button:hover {
+      background: #023e8a;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #proximo {
+      display: none;
+      margin-top: 20px;
+      background: #00b4d8;
+    }
+    #proximo:hover {
+      background: #0096c7;
+    }
+    .imagem-destino {
+  max-width: 100%;   /* nunca ultrapassa a largura da página */
+  height: auto;      /* mantém a proporção */
+  border-radius: 10px; /* opcional: cantos arredondados */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Somando Frações</h1>
+    <div id="frações"></div>
+    <input type="text" id="resposta" placeholder="Ex: 11/4">
+    <br>
+    <button onclick="verificar()">Enviar</button>
+    <div id="resultado"></div>
+    <button id="proximo" onclick="mostrarDestino()">Próximo destino</button>
+  </div>
+
+  <script>
+    let denominador;
+    let numeradores = [];
+    let soma = 0;
+
+    function gerarFrações() {
+      let container = document.getElementById("frações");
+      container.innerHTML = "";
+      numeradores = [];
+      soma = 0;
+
+      // denominador aleatório entre 2 e 6
+      denominador = Math.floor(Math.random() * 10) + 2;
+
+      // gerar entre 2 e 4 retângulos
+      let qtd = Math.floor(Math.random() * 3) + 2;
+
+      for (let i = 0; i < qtd; i++) {
+        let numerador = Math.floor(Math.random() * denominador) + 1;
+        numeradores.push(numerador);
+        soma += numerador;
+
+        // criar retângulo
+        let ret = document.createElement("div");
+        ret.className = "retangulo";
+
+        for (let j = 0; j < denominador; j++) {
+          let parte = document.createElement("div");
+          parte.className = "parte";
+          if (j < numerador) parte.classList.add("pintado");
+          ret.appendChild(parte);
+        }
+
+        container.appendChild(ret);
+      }
+    }
+
+    function verificar() {
+      let resposta = document.getElementById("resposta").value.trim();
+      let correta = soma + "/" + denominador;
+      if (resposta === correta) {
+        document.getElementById("resultado").innerHTML = 
+          "<img src='Cards/ABC.png' alt='Correto!' width='200'>";
+        setTimeout(() => {
+          document.getElementById("proximo").style.display = "inline-block";
+        }, 2000); // espera 2 segundos
+      } else {
+        document.getElementById("resultado").innerHTML = 
+          "❌ Resposta incorreta. Tente novamente!";
+      }
+    }
+
+    function mostrarDestino() {
+      document.getElementById("resultado").innerHTML = 
+  "<img src='Movimento/verde.png' alt='Destino' class='imagem-destino'>"
+      document.getElementById("proximo").style.display = "none";
+    }
+
+    window.onload = gerarFrações;
+  </script>
+</body>
+</html>
